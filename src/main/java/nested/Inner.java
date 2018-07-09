@@ -24,7 +24,8 @@ public class Inner {
 	interface EvenIterator extends java.util.Iterator<Integer>{}
 	
 	private class EvenNumberIterator implements EvenIterator {
-		
+
+		//private static int version = 1; //cannot define static members itself 
 		private int index = 0;
 
 		@Override
