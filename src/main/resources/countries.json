@@ -1,0 +1,11 @@
+[
+  {
+    "name": "name",
+    "population": "1000",
+    "capitalCity": "London",
+    "gdp": "10000",
+    "government": "Monarchy",
+    "foundation": "1900",
+    "island": "true"
+  }
+]
