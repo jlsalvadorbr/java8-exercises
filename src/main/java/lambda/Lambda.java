@@ -1,40 +1,40 @@
 package lambda;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
-import lambda.domain.Country;
-import lambda.domain.Country.Government;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.time.LocalDate;
+import lambda.domain.Country;
 
 public class Lambda {
 	
-	final static List<Country> COUNTRIES = createCountries();
+	public final static List<Country> COUNTRIES = readCountries();
 
-    private static List<Country> createCountries()
+    private static List<Country> readCountries()
     {
-    	Country unitedKingdom = new Country("United Kingdom");
-    	unitedKingdom.setPopulation(1000);
-    	unitedKingdom.setCapitalCity("London");
-    	unitedKingdom.setGdp(150000);
-    	unitedKingdom.setGovernment(Government.Constitutional_Monarchy);
-    	unitedKingdom.setFoundation(LocalDate.of(1900, 12, 13));
-    	unitedKingdom.setIsland(true);
-   	
-    	Country spain = new Country("Spain");
-    	Country germany = new Country("Germany");
+    	List<Country> countries = new ArrayList<>();
     	
-    	final List<Country> countries = Arrays.asList(
-    		unitedKingdom,
-    		spain,
-    		germany);
+    	InputStream jsonInput = Lambda.class.getResourceAsStream("/countries.json");
+    	ObjectMapper mapper = new ObjectMapper();
+    	try
+    	{ 
+    		countries.addAll(mapper.readValue(jsonInput, new TypeReference<List<Country>>(){}));
+    	}	
+    	catch (IOException e)
+    	{
+    		throw new RuntimeException(e);
+    	}
     	
     	return countries;
     }
     
     public static void main(String[] args) {
-		
+    	SimpleMethod1 sm = new SimpleMethod1();
+    	sm.execute();
 	}
 	
 	

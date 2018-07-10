@@ -2,6 +2,10 @@ package lambda.domain;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 public class Country {
 	
 	public enum Government {
@@ -13,11 +17,12 @@ public class Country {
 	private String capitalCity;
 	private double gdp;
 	private Government government;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate foundation;
 	private boolean island;
 	
-	public Country(String name) {
-		this.name = name;
+	public Country() {
 	}
 	
 	public String getName() {
@@ -40,29 +45,5 @@ public class Country {
 	}
 	public boolean isIsland() {
 		return island;
-	}
-
-	public void setPopulation(int population) {
-		this.population = population;
-	}
-
-	public void setCapitalCity(String capitalCity) {
-		this.capitalCity = capitalCity;
-	}
-
-	public void setGdp(double gdp) {
-		this.gdp = gdp;
-	}
-
-	public void setGovernment(Government government) {
-		this.government = government;
-	}
-
-	public void setFoundation(LocalDate foundation) {
-		this.foundation = foundation;
-	}
-
-	public void setIsland(boolean island) {
-		this.island = island;
 	}
 }

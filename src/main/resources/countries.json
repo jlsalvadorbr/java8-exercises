@@ -1,11 +1,91 @@
 [
   {
-    "name": "name",
-    "population": "1000",
+    "name": "United Kingdom",
+    "population": 66040229,
     "capitalCity": "London",
-    "gdp": "10000",
-    "government": "Monarchy",
-    "foundation": "1900",
-    "island": "true"
+    "gdp": 2647898,
+    "government": 1,
+    "island": true
+  },
+  {
+    "name": "Spain",
+    "population": 46659302,
+    "capitalCity": "Madrid",
+    "gdp": 1237255,
+    "government": 1,
+    "foundation": "13/12/2018",
+    "island": false
+  },
+  {
+    "name": "Germany",
+    "population": 82114224,
+    "capitalCity": "Berlin",
+    "gdp": 3684816,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": false
+  },
+  {
+    "name": "United States",
+    "population": 327454000,
+    "capitalCity": "Washington",
+    "gdp": 19390600,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": false
+  },
+  {
+    "name": "China",
+    "population": 7409800,
+    "capitalCity": "Beijing",
+    "gdp": 12014610,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": false
+  },  
+  {
+    "name": "Switzerland",
+    "population": 8492956,
+    "capitalCity": "Bern",
+    "gdp": 678575,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": false
+  },  
+  {
+    "name": "Haiti",
+    "population": 11112945,
+    "capitalCity": "Port-au-Prince",
+    "gdp": 8599,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": true
+  },
+  {
+    "name": "Iceland",
+    "population": 350710,
+    "capitalCity": "Reykjavik",
+    "gdp": 17036,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": true
+  },
+  {
+    "name": "Vatican City",
+    "population": 800,
+    "capitalCity": "Vatican City",
+    "gdp": 2,
+    "government": 2,
+    "foundation": "13/12/2018",
+    "island": false
+  },  
+  {
+    "name": "Guinea",
+    "population": 11883516,
+    "capitalCity": "Conakry",
+    "gdp": 10491,
+    "government": 0,
+    "foundation": "13/12/2018",
+    "island": false
   }
 ]
