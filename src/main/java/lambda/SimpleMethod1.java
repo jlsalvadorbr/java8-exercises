@@ -2,9 +2,9 @@ package lambda;
 
 import java.util.List;
 
-import lambda.domain.Country;
+import domain.Country;
 
-import static lambda.Lambda.COUNTRIES;
+import static domain.CountryRepository.COUNTRIES;
 
 //One method per characteristic / matching condition
 //Makes application brittle (rewrite if Country changes) and restrictive (new method for new query)

@@ -1,4 +1,4 @@
-package lambda.domain;
+package domain;
 
 import java.time.LocalDate;
 
@@ -12,15 +12,15 @@ public class Country {
 		Republic, Constitutional_Monarchy, Abosulute_Monarchy  
 	}
 	
-	private String name;
-	private int population;
-	private String capitalCity;
-	private double gdp;
-	private Government government;
+	protected String name;
+	protected int population;
+	protected String capitalCity;
+	protected double gdp;
+	protected Government government;
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate foundation;
-	private boolean island;
+	protected LocalDate foundation;
+	protected boolean island;
 	
 	public Country() {
 	}
