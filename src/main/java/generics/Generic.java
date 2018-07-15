@@ -1,17 +1,12 @@
 package generics;
 
-import java.time.LocalDate;
+import domain.Country;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-
-import domain.Country;
-import domain.Country.Government;
-import domain.CountryRepository;
+import static domain.CountryRepository.getCountry;
 
 public class Generic<T, U> {
 	
@@ -45,8 +40,13 @@ public class Generic<T, U> {
 		return items;
 	}
 	
-	public List<U> covariance(List<? extends U> items)
+	public List<U> covariance(List<? extends Country> items)
 	{
+		//items.add(getCountry("China"));
+		for (Country c : items)
+		{
+			System.out.println(c.getName());
+		}
 		return null;
 	}
 	
@@ -90,8 +90,19 @@ public class Generic<T, U> {
 				
 		List<String> results = evenFilter.filterList(items);
 		generic.printList(results);
-		
-		
-		CommentedCountry commentedCountry = new CommentedCountry(CountryRepository.getCountry("Spain"), "This is a comment");
+
+		Country spain = getCountry("Spain");
+		Country uk = getCountry("United Kingdom");
+		Country germany = getCountry("Germany");
+
+		CommentedCountry commentedCountry1 = new CommentedCountry(spain, "This is a comment for Spain");
+		CommentedCountry commentedCountry2 = new CommentedCountry(uk, "This is a comment for UK");
+		CommentedCountry commentedCountry3 = new CommentedCountry(germany, "This is a comment for Germany");
+
+		generic.covariance(Arrays.asList(spain, uk, germany));
+		generic.covariance(Arrays.asList(commentedCountry1, commentedCountry2, commentedCountry3));
+
+
+
 	}
 }
