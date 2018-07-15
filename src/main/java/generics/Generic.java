@@ -34,12 +34,21 @@ public class Generic<T, U> {
 			return result;
 		}
 	}
-	
+
+	//To both get and put values from/into a structure
+    //Unbounded wildcard
+    //invariant means that the type must be exactly as specified
 	public List<U> invariance(List<U> items)
 	{
-		return items;
+
+	    return items;
 	}
-	
+
+	//PEcs: Producer Extends
+    //To only get values out of a structure
+    //Wildcard with upper bound
+    //arrays are covariant because String[] is a subtype of Object[],
+    //but collections are not covariant unless we use the extends keyword with a wildcard.
 	public List<U> covariance(List<? extends Country> items)
 	{
 		//items.add(getCountry("China"));
@@ -49,10 +58,21 @@ public class Generic<T, U> {
 		}
 		return null;
 	}
-	
-	public List<U> contravariance(List<? super U> items)
+
+	//peCS: Consumer Super
+    //To only put values into a structure
+    //Wildcard with lower bound
+	public List<U> contravariance(List<? super CommentedCountry> items)
 	{
-		return null;
+        Country china = getCountry("China");
+        CommentedCountry commentedChina = new CommentedCountry(china, "This is a comment for China");
+        items.add(commentedChina);
+        //items.add(china);
+        //CommentedCountry item = items.get(0);
+        //Country item = items.get(0);
+        Object item = items.get(0);
+
+	    return null;
 	}
 	
 	private void printList(List<String> results) {
@@ -101,6 +121,9 @@ public class Generic<T, U> {
 
 		generic.covariance(Arrays.asList(spain, uk, germany));
 		generic.covariance(Arrays.asList(commentedCountry1, commentedCountry2, commentedCountry3));
+
+        generic.contravariance(Arrays.asList(spain, uk, germany));
+        generic.contravariance(Arrays.asList(commentedCountry1, commentedCountry2, commentedCountry3));
 
 
 
