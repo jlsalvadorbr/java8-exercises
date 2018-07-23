@@ -1,19 +1,14 @@
 package generics;
 
-import java.time.LocalDate;
+import static domain.CountryRepository.getCountry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-
 import domain.Country;
-import domain.Country.Government;
-import domain.CountryRepository;
 
-public class Generic<T, U> {
+public class Generic<T> {
 	
 	public interface FilterList<T>  {
 		List<T> filterList(List<T> items);
@@ -40,19 +35,30 @@ public class Generic<T, U> {
 		}
 	}
 	
-	public List<U> invariance(List<U> items)
+	public void invariance(List<Country> items)
 	{
-		return items;
+		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
+		items.add(commentedCountryChina); //fails
+		items.add(getCountry("China"));
+		System.out.println(items.get(0).getName());
+		System.out.println(items.get(0).getClass().getName());
 	}
 	
-	public List<U> covariance(List<? extends U> items)
+	public void covariance(List<? extends Country> items)
 	{
-		return null;
+		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
+		//items.add(commentedCountryChina); //fails
+		//items.add(getCountry("China")); //fails
+		System.out.println(items.get(0).getName());
 	}
 	
-	public List<U> contravariance(List<? super U> items)
+	public void contravariance(List<? super CommentedCountry> items)
 	{
-		return null;
+		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
+		//items.add(getCountry("China")); //fails
+		items.add(commentedCountryChina);
+		//System.out.println(items.get(0).getName()); //fails
+		System.out.println(items.get(0).getClass().getName()); //fails
 	}
 	
 	private void printList(List<String> results) {
@@ -85,13 +91,20 @@ public class Generic<T, U> {
 		
 		List<String> items = Arrays.asList("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine");
 		
-		Generic generic = new Generic<String, Country>();
-		Generic.EvenFilter evenFilter = generic.new EvenFilter();
+		Generic<String> generic = new Generic<>();
+		Generic<String>.EvenFilter evenFilter = generic.new EvenFilter();
 				
 		List<String> results = evenFilter.filterList(items);
 		generic.printList(results);
 		
+		CommentedCountry commentedCountrySpain = new CommentedCountry(getCountry("Spain"), "This is a comment for Spain");
+		CommentedCountry commentedCountryUK = new CommentedCountry(getCountry("United Kingdom"), "This is a comment for United Kingdom");
+		CommentedCountry commentedCountryGermany = new CommentedCountry(getCountry("Germany"), "This is a comment for Germany");
 		
-		CommentedCountry commentedCountry = new CommentedCountry(CountryRepository.getCountry("Spain"), "This is a comment");
+		generic.invariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
+		
+		generic.covariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
+		
+		generic.contravariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
 	}
 }
