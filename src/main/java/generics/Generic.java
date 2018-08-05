@@ -1,14 +1,14 @@
 package generics;
 
-import domain.Country;
+import static domain.CountryRepository.getCountry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static domain.CountryRepository.getCountry;
+import domain.Country;
 
-public class Generic<T, U> {
+public class Generic<T> {
 	
 	public interface FilterList<T>  {
 		List<T> filterList(List<T> items);
@@ -34,45 +34,31 @@ public class Generic<T, U> {
 			return result;
 		}
 	}
-
-	//To both get and put values from/into a structure
-    //Unbounded wildcard
-    //invariant means that the type must be exactly as specified
-	public List<U> invariance(List<U> items)
+	
+	public void invariance(List<Country> items)
 	{
-
-	    return items;
+		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
+		items.add(commentedCountryChina); //fails
+		items.add(getCountry("China"));
+		System.out.println(items.get(0).getName());
+		System.out.println(items.get(0).getClass().getName());
 	}
-
-	//PEcs: Producer Extends
-    //To only get values out of a structure
-    //Wildcard with upper bound
-    //arrays are covariant because String[] is a subtype of Object[],
-    //but collections are not covariant unless we use the extends keyword with a wildcard.
-	public List<U> covariance(List<? extends Country> items)
+	
+	public void covariance(List<? extends Country> items)
 	{
-		//items.add(getCountry("China"));
-		for (Country c : items)
-		{
-			System.out.println(c.getName());
-		}
-		return null;
+		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
+		//items.add(commentedCountryChina); //fails
+		//items.add(getCountry("China")); //fails
+		System.out.println(items.get(0).getName());
 	}
-
-	//peCS: Consumer Super
-    //To only put values into a structure
-    //Wildcard with lower bound
-	public List<U> contravariance(List<? super CommentedCountry> items)
+	
+	public void contravariance(List<? super CommentedCountry> items)
 	{
-        Country china = getCountry("China");
-        CommentedCountry commentedChina = new CommentedCountry(china, "This is a comment for China");
-        items.add(commentedChina);
-        //items.add(china);
-        //CommentedCountry item = items.get(0);
-        //Country item = items.get(0);
-        Object item = items.get(0);
-
-	    return null;
+		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
+		//items.add(getCountry("China")); //fails
+		items.add(commentedCountryChina);
+		//System.out.println(items.get(0).getName()); //fails
+		System.out.println(items.get(0).getClass().getName()); //fails
 	}
 	
 	private void printList(List<String> results) {
@@ -105,27 +91,20 @@ public class Generic<T, U> {
 		
 		List<String> items = Arrays.asList("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine");
 		
-		Generic generic = new Generic<String, Country>();
-		Generic.EvenFilter evenFilter = generic.new EvenFilter();
+		Generic<String> generic = new Generic<>();
+		Generic<String>.EvenFilter evenFilter = generic.new EvenFilter();
 				
 		List<String> results = evenFilter.filterList(items);
 		generic.printList(results);
-
-		Country spain = getCountry("Spain");
-		Country uk = getCountry("United Kingdom");
-		Country germany = getCountry("Germany");
-
-		CommentedCountry commentedCountry1 = new CommentedCountry(spain, "This is a comment for Spain");
-		CommentedCountry commentedCountry2 = new CommentedCountry(uk, "This is a comment for UK");
-		CommentedCountry commentedCountry3 = new CommentedCountry(germany, "This is a comment for Germany");
-
-		generic.covariance(Arrays.asList(spain, uk, germany));
-		generic.covariance(Arrays.asList(commentedCountry1, commentedCountry2, commentedCountry3));
-
-        generic.contravariance(Arrays.asList(spain, uk, germany));
-        generic.contravariance(Arrays.asList(commentedCountry1, commentedCountry2, commentedCountry3));
-
-
-
+		
+		CommentedCountry commentedCountrySpain = new CommentedCountry(getCountry("Spain"), "This is a comment for Spain");
+		CommentedCountry commentedCountryUK = new CommentedCountry(getCountry("United Kingdom"), "This is a comment for United Kingdom");
+		CommentedCountry commentedCountryGermany = new CommentedCountry(getCountry("Germany"), "This is a comment for Germany");
+		
+		generic.invariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
+		
+		generic.covariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
+		
+		generic.contravariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
 	}
 }
