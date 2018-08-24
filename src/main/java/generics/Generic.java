@@ -16,7 +16,6 @@ public class Generic<T> {
 
 	public class EvenFilter implements FilterList<T> 
 	{
-
 		@Override
 		public List<T> filterList(List<T> items) {
 			
@@ -38,7 +37,7 @@ public class Generic<T> {
 	public void invariance(List<Country> items)
 	{
 		CommentedCountry commentedCountryChina = new CommentedCountry(getCountry("China"), "This is a comment for China");
-		items.add(commentedCountryChina); //fails
+		items.add(commentedCountryChina);
 		items.add(getCountry("China"));
 		System.out.println(items.get(0).getName());
 		System.out.println(items.get(0).getClass().getName());
@@ -58,7 +57,7 @@ public class Generic<T> {
 		//items.add(getCountry("China")); //fails
 		items.add(commentedCountryChina);
 		//System.out.println(items.get(0).getName()); //fails
-		System.out.println(items.get(0).getClass().getName()); //fails
+		System.out.println(items.get(0).getClass().getName());
 	}
 	
 	private void printList(List<String> results) {
@@ -96,15 +95,22 @@ public class Generic<T> {
 				
 		List<String> results = evenFilter.filterList(items);
 		generic.printList(results);
-		
-		CommentedCountry commentedCountrySpain = new CommentedCountry(getCountry("Spain"), "This is a comment for Spain");
+
+		Country countrySpain = getCountry("Spain");
+        Country countryUK = getCountry("UK");
+        Country countryGermany = getCountry("Germany");
+
+        CommentedCountry commentedCountrySpain = new CommentedCountry(getCountry("Spain"), "This is a comment for Spain");
 		CommentedCountry commentedCountryUK = new CommentedCountry(getCountry("United Kingdom"), "This is a comment for United Kingdom");
 		CommentedCountry commentedCountryGermany = new CommentedCountry(getCountry("Germany"), "This is a comment for Germany");
+
+        List<Country> countryItems = new ArrayList<>(Arrays.asList(countrySpain, countryUK, countryGermany));
+        List<CommentedCountry> commentedCountryItems = new ArrayList<>(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
+
+        //generic.invariance(countryItems);
+
+		//generic.covariance(commentedCountryItems);
 		
-		generic.invariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
-		
-		generic.covariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
-		
-		generic.contravariance(Arrays.asList(commentedCountrySpain, commentedCountryUK, commentedCountryGermany));
+		generic.contravariance(countryItems);
 	}
 }
